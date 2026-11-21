@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#173b68">
+<title>Class 9 Science Chapter 11 – Interactive MCQ Quiz</title>
+<style>
+:root{--navy:#173b68;--blue:#245b96;--ink:#172235;--muted:#65748b;--line:#dce4ee;--bg:#f3f6fa;--green:#167545;--red:#b42318}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:Arial,Helvetica,sans-serif;color:var(--ink);line-height:1.5}
+header{background:linear-gradient(135deg,#173b68,#28659c);color:#fff;padding:26px 16px 22px}
+.wrap{max-width:850px;margin:auto}
+h1{font-size:clamp(1.35rem,4vw,2rem);margin:0 0 6px}
+header p{margin:0;color:#e5eef8}
+main{max-width:850px;margin:18px auto;padding:0 12px 40px}
+.panel,.question{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px #1722350a}
+.stats{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-weight:700}
+.track{height:9px;background:#e8edf4;border-radius:20px;overflow:hidden;margin-top:10px}
+.fill{height:100%;width:0;background:#218653;transition:width .2s}
+.qhead{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px;color:var(--muted);font-size:.9rem;font-weight:700}
+.qtext{font-weight:700;margin:0 0 13px;font-size:1.02rem}
+.options{display:grid;gap:9px}
+.option{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:11px 12px;cursor:pointer;background:#fff;text-align:left;width:100%;font-size:.96rem;color:var(--ink)}
+.option:focus-visible{outline:3px solid #8bb9ed;outline-offset:2px}
+.option:hover:not(:disabled){border-color:#6c9ed3;background:#f6faff}
+.option:disabled{cursor:default;opacity:1}
+.option.correct{border-color:#54a77a;background:#edf8f1}
+.option.wrong{border-color:#df827b;background:#fff1f0}
+.letter{font-weight:700;min-width:22px;color:var(--blue)}
+.feedback{margin-top:12px;padding:12px;border-radius:10px;background:#f1f5f9;font-size:.94rem}
+.feedback.good{border-left:4px solid var(--green)}
+.feedback.bad{border-left:4px solid var(--red)}
+.feedback strong{display:block;margin-bottom:3px}
+.badge{font-size:.78rem;border-radius:20px;padding:4px 9px;background:#edf1f6;color:#475569}
+button.action{border:0;border-radius:10px;padding:12px 16px;background:var(--navy);color:#fff;font-size:1rem;font-weight:700;cursor:pointer}
+button.action:disabled{opacity:.45;cursor:not-allowed}
+button.secondary{background:#e8eef5;color:var(--navy);border:1px solid #cbd7e5}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.result{display:none;text-align:center}
+.score{font-size:2.5rem;color:var(--green);font-weight:800}
+.small{font-size:.88rem;color:var(--muted)}
+footer{text-align:center;color:var(--muted);font-size:.82rem;padding:10px 15px 28px}
+@media(max-width:520px){.panel,.question{padding:13px}.option{padding:10px}}
+@media print{body{background:#fff}header{background:#fff;color:#111;padding:10px}.actions{display:none}.question{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<h1>Class 9 Science – Chapter 11</h1>
+<p>Reproduction: How Life Continues | NCERT 2026–27</p>
+</div></header>
+<main>
+<section class="panel">
+<div class="stats"><span>Your progress</span><span id="progressText">0 / 50 attempted</span></div>
+<div class="track"><div class="fill" id="progressFill"></div></div>
+<p class="small">Tap one option for each question. Your answer and explanation appear immediately. This quiz works offline after you save the file.</p>
+</section>
+<div id="quiz"></div>
+<section class="panel result" id="result" aria-live="polite">
+<div class="score" id="score">0 / 50</div>
+<h2 id="resultTitle">Quiz complete!</h2>
+<p id="resultText"></p>
+<div class="actions" style="justify-content:center">
+<button class="action" onclick="restartQuiz()">Restart all 50 questions</button>
+</div>
+</section>
+<section class="panel">
+<div class="actions">
+<button class="action" id="finishBtn" onclick="showResult()" disabled>Finish quiz and view score</button>
+<button class="action secondary" onclick="restartQuiz()">Restart quiz</button>
+</div>
+<p class="small">Tip: You can share this single HTML file with students. They can open it in a browser on a phone or computer.</p>
+</section>
+</main>
+<footer>Practice resource for learning and revision. Check the prescribed NCERT 2026–27 textbook for the final syllabus.</footer>
+<script>
+const questions = [["What is the main purpose of reproduction?", ["To obtain energy", "To ensure continuity of a species", "To increase body size", "To produce food"], 1, "Reproduction produces new individuals and ensures continuity of a species."], ["Which type of reproduction generally involves only one parent?", ["Sexual reproduction", "Asexual reproduction", "Cross-pollination", "Fertilisation"], 1, "Asexual reproduction generally involves one parent and does not require fusion of gametes."], ["Which organism commonly reproduces by binary fission?", ["Hydra", "Amoeba", "Rhizopus", "Mango"], 1, "Amoeba commonly reproduces by binary fission, in which one cell divides into two."], ["Which organism reproduces by budding?", ["Amoeba", "Yeast", "Mango", "Wheat"], 1, "Yeast forms a small outgrowth called a bud, which develops into a new individual."], ["Which organism can reproduce by budding?", ["Hydra", "Wheat", "Maize", "Human"], 0, "Hydra can form a new individual through budding."], ["Genetically identical offspring produced through asexual reproduction are commonly called:", ["Gametes", "Clones", "Zygotes", "Embryos"], 1, "Genetically identical copies are called clones."], ["Which plant can produce small plantlets along the margins of its leaves?", ["Wheat", "Bryophyllum", "Mustard", "Maize"], 1, "Bryophyllum produces small plantlets along the margins of its leaves."], ["Vegetative propagation involves the use of:", ["Only seeds", "Roots, stems or leaves", "Only flowers", "Only pollen grains"], 1, "New plants can develop from vegetative parts such as roots, stems and leaves."], ["Which of the following is an underground stem used in vegetative propagation?", ["Potato", "Carrot", "Radish", "Turnip"], 0, "Potato is a stem tuber with buds called eyes."], ["Which of these is a method of artificial vegetative propagation?", ["Pollination", "Grafting", "Fertilisation", "Seed dispersal"], 1, "Grafting joins parts of two plants to grow a plant with desired characteristics."], ["Which type of cell division is mainly responsible for growth and repair?", ["Meiosis", "Mitosis", "Fertilisation", "Pollination"], 1, "Mitosis produces daughter cells for growth and repair."], ["How many daughter cells are generally produced by mitosis?", ["One", "Two", "Three", "Four"], 1, "Mitosis generally produces two daughter cells."], ["Daughter cells produced by mitosis generally have:", ["Half the chromosome number", "The same chromosome number as the parent cell", "Double the chromosome number", "No chromosomes"], 1, "Mitosis generally maintains the chromosome number."], ["Which type of cell division reduces the chromosome number to half?", ["Mitosis", "Meiosis", "Binary fission", "Budding"], 1, "Meiosis is a reduction division that produces haploid cells."], ["How many chromosomes are present in a normal human body cell?", ["23", "44", "46", "48"], 2, "A normal human body cell contains 46 chromosomes, arranged in 23 pairs."], ["How many chromosomes are normally present in a human gamete?", ["46", "23", "44", "48"], 1, "Human sperm and egg cells normally contain 23 chromosomes each."], ["A cell containing two sets of chromosomes is called:", ["Haploid", "Diploid", "Gamete", "Spore"], 1, "Diploid cells contain two sets of chromosomes."], ["The formation of reproductive cells is called:", ["Germination", "Gametogenesis", "Pollination", "Implantation"], 1, "Gametogenesis is the process of formation of gametes."], ["What is the fusion of male and female gametes called?", ["Pollination", "Fertilisation", "Ovulation", "Menstruation"], 1, "Fertilisation is the fusion of male and female gametes to form a zygote."], ["Which process combines genetic material from two parents?", ["Sexual reproduction", "Binary fission", "Budding", "Vegetative propagation"], 0, "Sexual reproduction combines genetic material from two parents and contributes to variation."], ["Which part of a flower produces pollen grains?", ["Stigma", "Anther", "Ovary", "Sepal"], 1, "The anther is part of the stamen and produces pollen grains."], ["The male reproductive part of a flower is called:", ["Pistil", "Stamen", "Sepal", "Petal"], 1, "The stamen consists of anther and filament."], ["The female reproductive part of a flower is called:", ["Stamen", "Pistil", "Petal", "Sepal"], 1, "The pistil is the female reproductive part of a flower."], ["Which are the four main floral whorls?", ["Root, stem, leaf and flower", "Sepal, petal, stamen and pistil", "Anther, ovule, seed and fruit", "Stigma, style, root and stem"], 1, "The four main whorls are sepals, petals, stamens and pistil."], ["The sticky upper part of the pistil is called:", ["Ovary", "Style", "Stigma", "Ovule"], 2, "The stigma receives pollen grains and is often sticky."], ["Ovules are present inside the:", ["Anther", "Ovary", "Stigma", "Petal"], 1, "The ovary contains one or more ovules."], ["What is pollination?", ["Fusion of gametes", "Transfer of pollen from anther to stigma", "Formation of fruit", "Germination of seed"], 1, "Pollination is the transfer of pollen grains from anther to stigma."], ["Transfer of pollen to the stigma of the same flower is:", ["Cross-pollination", "Self-pollination", "Fertilisation", "Seed dispersal"], 1, "Self-pollination occurs when pollen reaches the stigma of the same flower or another flower on the same plant."], ["Transfer of pollen between flowers of different plants of the same species is:", ["Self-pollination", "Cross-pollination", "Germination", "Budding"], 1, "Cross-pollination involves flowers on different plants of the same species."], ["Which of these can act as an agent of pollination?", ["Wind", "Insects", "Birds", "All of these"], 3, "Wind, insects and birds can all help transfer pollen."], ["Wind-pollinated flowers generally produce:", ["Very few pollen grains", "Large quantities of pollen grains", "No pollen grains", "Only one pollen grain"], 1, "Many pollen grains may be lost in transit, so wind-pollinated plants often produce large quantities."], ["After fertilisation, the ovule generally develops into a:", ["Fruit", "Seed", "Petal", "Sepal"], 1, "The fertilised ovule develops into a seed."], ["After fertilisation, the ovary generally develops into a:", ["Root", "Fruit", "Leaf", "Pollen grain"], 1, "The ovary generally develops into the fruit."], ["In a flowering plant, fertilisation takes place in the:", ["Anther", "Ovule inside the ovary", "Petal", "Sepal"], 1, "The male gamete fuses with the egg in the ovule."], ["Which type of fertilisation takes place outside the body of the female animal?", ["Internal fertilisation", "External fertilisation", "Self-fertilisation", "Double pollination"], 1, "In external fertilisation, the gametes fuse outside the female body, often in water."], ["Which animal commonly shows external fertilisation?", ["Human", "Cow", "Frog", "Dog"], 2, "Frogs generally release eggs and sperm into water, where fertilisation occurs."], ["Which animal generally shows internal fertilisation?", ["Frog", "Human", "Many fish", "Starfish"], 1, "In humans, fertilisation normally takes place inside the female reproductive system."], ["Which organ produces sperm in human males?", ["Ovary", "Testes", "Uterus", "Kidney"], 1, "The testes produce sperm cells."], ["Which organs produce eggs in human females?", ["Testes", "Ovaries", "Oviducts", "Cervix"], 1, "The ovaries produce female gametes called eggs or ova."], ["The tubes connecting the ovaries to the uterus are called:", ["Ureters", "Oviducts", "Bronchi", "Arteries"], 1, "Oviducts, also called Fallopian tubes, connect the ovaries to the uterus."], ["Where does fertilisation normally occur in humans?", ["Uterus", "Vagina", "Oviduct", "Cervix"], 2, "Human fertilisation normally takes place in the oviduct."], ["Where does implantation normally take place?", ["Ovary", "Uterine lining", "Vagina", "Cervix"], 1, "The developing embryo implants in the lining of the uterus."], ["The release of a mature egg from an ovary is called:", ["Menstruation", "Ovulation", "Implantation", "Fertilisation"], 1, "Ovulation is the release of a mature egg from an ovary."], ["The human menstrual cycle generally lasts approximately:", ["3–7 days", "21–35 days", "60–90 days", "100 days"], 1, "The menstrual cycle generally lasts about 21–35 days; it varies among individuals."], ["If fertilisation does not occur, the uterine lining is generally:", ["Converted into bone", "Shed during menstruation", "Changed into an ovary", "Permanently retained"], 1, "The thickened uterine lining is shed during menstruation."], ["Human pregnancy generally lasts approximately:", ["3 months", "6 months", "9 months", "12 months"], 2, "Human pregnancy generally lasts around nine months."], ["The narrow passage connecting the uterus to the vagina is called:", ["Oviduct", "Cervix", "Ovary", "Urethra"], 1, "The cervix is the narrow lower part of the uterus that opens into the vagina."], ["Which of the following is a barrier method of contraception?", ["Condom", "Vitamin tablet", "Antibiotic", "Vaccine"], 0, "Condoms act as a physical barrier and also help reduce the risk of many sexually transmitted infections."], ["Which of the following is a sexually transmitted infection?", ["Common cold", "HIV infection", "Malaria", "Dengue"], 1, "HIV can be transmitted through certain sexual contact and other specific routes."], ["Which practice supports reproductive health?", ["Believing in myths", "Maintaining hygiene and seeking reliable health information", "Ignoring health concerns", "Using unverified treatments"], 1, "Reliable information, hygiene and appropriate healthcare support reproductive health."]];
+const letters = ["A","B","C","D"];
+const quiz = document.getElementById("quiz");
+const chosen = {};
+function render(){
+  quiz.innerHTML = "";
+  questions.forEach((q,i)=>{
+    const card=document.createElement("section");
+    card.className="question";
+    const head=document.createElement("div"); head.className="qhead";
+    const label=document.createElement("span"); label.textContent=`Question ${i+1} of 50`;
+    const badge=document.createElement("span"); badge.className="badge"; badge.id=`badge-${i}`; badge.textContent="Not attempted";
+    head.append(label,badge);
+    const title=document.createElement("p"); title.className="qtext"; title.textContent=q[0];
+    const options=document.createElement("div"); options.className="options";
+    q[1].forEach((opt,j)=>{
+      const b=document.createElement("button"); b.type="button"; b.className="option"; b.id=`opt-${i}-${j}`;
+      const letter=document.createElement("span"); letter.className="letter"; letter.textContent=letters[j]+".";
+      const txt=document.createElement("span"); txt.textContent=opt;
+      b.append(letter,txt); b.addEventListener("click",()=>answer(i,j)); options.appendChild(b);
+    });
+    const feedback=document.createElement("div"); feedback.className="feedback"; feedback.id=`feedback-${i}`; feedback.hidden=true;
+    card.append(head,title,options,feedback); quiz.appendChild(card);
+    if(chosen[i]!==undefined) paint(i,chosen[i]);
+  });
+  updateProgress();
+}
+function answer(i,j){
+  if(chosen[i]!==undefined) return;
+  chosen[i]=j; paint(i,j); updateProgress();
+}
+function paint(i,j){
+  const q=questions[i], correct=q[2];
+  q[1].forEach((_,k)=>{
+    const b=document.getElementById(`opt-${i}-${k}`);
+    b.disabled=true;
+    if(k===correct) b.classList.add("correct");
+    if(k===j && j!==correct) b.classList.add("wrong");
+  });
+  const badge=document.getElementById(`badge-${i}`);
+  const fb=document.getElementById(`feedback-${i}`); fb.hidden=false;
+  if(j===correct){
+    badge.textContent="Correct"; fb.className="feedback good";
+    fb.innerHTML="<strong>✓ Correct answer!</strong>";
+  } else {
+    badge.textContent="Incorrect"; fb.className="feedback bad";
+    fb.innerHTML="<strong>✗ Incorrect. Correct answer: "+letters[correct]+". "+escapeHTML(q[1][correct])+"</strong>";
+  }
+  const explanation=document.createElement("div"); explanation.textContent=q[3]; fb.appendChild(explanation);
+}
+function escapeHTML(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function updateProgress(){
+  const n=Object.keys(chosen).length;
+  document.getElementById("progressText").textContent=`${n} / 50 attempted`;
+  document.getElementById("progressFill").style.width=(n/50*100)+"%";
+  document.getElementById("finishBtn").disabled=n!==50;
+}
+function showResult(){
+  const n=Object.keys(chosen).length;
+  if(n!==50) return;
+  const score=questions.reduce((s,q,i)=>s+(chosen[i]===q[2]?1:0),0);
+  document.getElementById("score").textContent=score+" / 50";
+  document.getElementById("resultTitle").textContent=score>=45?"Excellent performance!":score>=35?"Very good!":score>=25?"Good effort!":"Keep practising!";
+  document.getElementById("resultText").textContent=`Correct: ${score} | Incorrect: ${50-score}. Review the explanations with each question to strengthen your concepts.`;
+  document.getElementById("result").style.display="block";
+  document.getElementById("result").scrollIntoView({behavior:"smooth",block:"center"});
+}
+function restartQuiz(){
+  for(const k of Object.keys(chosen)) delete chosen[k];
+  document.getElementById("result").style.display="none";
+  render(); window.scrollTo({top:0,behavior:"smooth"});
+}
+render();
+</script>
+</body>
+</html>
